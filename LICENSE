@@ -1,0 +1,79 @@
+Business Source License 1.1
+
+Licensor:             Anthony - FluxOS
+Licensed Work:        FluxOS — Sistema Financeiro Self-Hosted
+                      The Licensed Work is (c) 2025 Anthony - FluxOS
+Change Date:          Four years from the date the Licensed Work is first
+                      publicly distributed.
+Change License:       MIT License
+
+For information about alternative licensing arrangements for the Licensed
+Work, please contact: fluxosbr01@gmail.com
+
+---
+
+Terms
+
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work. The
+Licensor may make an Additional Use Grant, above, permitting limited
+production use.
+
+Effective on the Change Date, or the fourth anniversary of the first
+publicly available distribution of a specific version of the Licensed Work
+under this License, whichever comes first, the Licensor hereby grants you
+rights under the terms of the Change License, and these rights shall not be
+restricted by any Additional Use Grant. The rights to use any versions of
+the Licensed Work published prior to the Change Date are as described above.
+
+---
+
+Additional Use Grant
+
+Personal use is permitted.
+
+The following uses are PROHIBITED without prior explicit written
+authorization from the Licensor:
+
+  1. Commercial use of any kind, including but not limited to offering the
+     Licensed Work as a service (SaaS), incorporating it into a paid product,
+     or using it to generate revenue in any form.
+
+  2. Redistribution of the Licensed Work or any derivative work, in source
+     or compiled form, to any third party.
+
+To request authorization for commercial use or redistribution, contact:
+contato@oanthonydesign.com
+
+---
+
+Notice
+
+The Business Source License (this document, or the "License") is not an
+Open Source license. However, the Licensed Work will eventually be made
+available under an Open Source License, as stated in this License.
+
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
+
+---
+
+Covenants of Licensor
+
+In consideration of the right to use this License's text and the
+"Business Source License" name and trademark, Licensor covenants to
+MariaDB Corporation Ab the following:
+
+1. To specify as the Change License the name of an Open Source License
+   (as defined in the Open Source Definition) in the Change License field.
+
+2. To either: (a) specify an additional grant of rights to use that does
+   not impose any additional restriction on the right granted in this
+   License, as the Additional Use Grant; or (b) insert the text
+   "None" in the Additional Use Grant field.
+
+3. To specify a Change Date that is no later than four years from the date
+   this License is first distributed, or null if a Change Date is not
+   specified.
+
+4. Not to modify this License in any other way.
