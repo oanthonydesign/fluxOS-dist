@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
 
@@ -135,6 +136,15 @@ export default function LoginPage() {
                                 )}
                             </button>
                         </form>
+
+                        <div className="mt-6 text-center">
+                            <Link
+                                href="/signup"
+                                className="text-sm text-gray-500 hover:text-slate-900 transition-colors duration-200"
+                            >
+                                Crie sua conta agora
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
