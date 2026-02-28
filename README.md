@@ -9,7 +9,7 @@ FluxOS é um sistema financeiro completo, hospedado pelo próprio cliente usando
 Para que o sistema funcione, você precisa configurar um projeto gratuito no Supabase seguindo estes passos:
 
 1. **Passo 1 — Criar a conta e o projeto**: Acesse [supabase.com](https://supabase.com), crie sua conta e clique em **New Project**. Preencha o nome do seu projeto, defina uma senha para o banco de dados (guarde-a bem!) e selecione a região **South America (São Paulo)**. Aguarde alguns minutos até o projeto terminar de subir.
-2. **Passo 2 — Pegar as chaves de API**: No menu lateral esquerdo, vá em **Project Settings** > **API**. Copie o endereço em **Project URL** (ele será usado como `NEXT_PUBLIC_SUPABASE_URL`) e a chave em **anon public** (ela será usada como `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+2. **Passo 2 — Pegar as chaves de API**: No menu lateral esquerdo, vá em **Project Settings** > **API**. Copie o endereço em **Project ID** (ele será usado como `NEXT_PUBLIC_SUPABASE_URL`) e a chave em **anon public** (ela será usada como `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
 3. **Passo 3 — Rodar o SQL do banco**: No menu lateral, clique em **SQL Editor**. Clique em **New query**, abra o arquivo [`banco_de_dados.sql`](./banco_de_dados.sql) deste repositório, copie todo o conteúdo dele, cole no editor do Supabase e clique em **Run**. Confirme se aparece a mensagem de "Success".
 4. **Passo 4 — Configurar autenticação**: Vá em **Authentication** > **URL Configuration**. No campo **Site URL**, coloque a URL que a Vercel te deu após o deploy. Em **Redirect URLs**, adicione `https://sua-url-da-vercel.vercel.app/**`.
 

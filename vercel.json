@@ -1,16 +1,1 @@
-{
-    "env": {
-        "NEXT_PUBLIC_SUPABASE_URL": {
-            "description": "URL do projeto Supabase (Project Settings > API)",
-            "required": true
-        },
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY": {
-            "description": "Chave anon/public do Supabase (Project Settings > API)",
-            "required": true
-        },
-        "NEXT_PUBLIC_SITE_URL": {
-            "description": "URL pública do site após o deploy (ex: https://seu-app.vercel.app)",
-            "required": true
-        }
-    }
-}
+{}
