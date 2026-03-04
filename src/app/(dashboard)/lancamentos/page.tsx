@@ -48,8 +48,8 @@ export default function TransactionsPage() {
     async function loadData() {
         setLoading(true)
         try {
-            const start = startOfMonth(selectedMonth).toISOString()
-            const end = endOfMonth(selectedMonth).toISOString()
+            const start = format(startOfMonth(selectedMonth), 'yyyy-MM-dd')
+            const end = format(endOfMonth(selectedMonth), 'yyyy-MM-dd')
 
             const [transData, catsData] = await Promise.all([
                 transactionService.getTransactionsByDate(isPersonal, start, end),

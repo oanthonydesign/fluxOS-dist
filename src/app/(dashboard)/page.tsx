@@ -15,7 +15,7 @@ import { dashboardService } from "@/lib/services/dashboard"
 import { goalService } from "@/lib/services/goals"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency, formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { CashFlowChart } from "@/components/dashboard/cashflow-chart"
 import { Progress } from "@/components/ui/progress"
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-foreground truncate max-w-[120px]">{item.description}</p>
-                                                    <p className="text-xs text-muted-foreground">{new Date(item.date).toLocaleDateString('pt-BR')}</p>
+                                                    <p className="text-xs text-muted-foreground">{formatDate(item.date)}</p>
                                                 </div>
                                             </div>
                                             <div className="text-sm font-semibold text-foreground whitespace-nowrap">
