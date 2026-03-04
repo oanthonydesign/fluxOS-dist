@@ -1,26 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-// Import added for new grouping icons
 import {
     LayoutDashboard,
-    ArrowUpRight,
-    CreditCard,
-    CalendarClock,
-    Target,
     Settings,
     LogOut,
     ChevronRight,
     Timer,
     Wallet,
     ArrowRightLeft,
+    Target,
+    X,
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useMobileSidebar } from "@/hooks/use-mobile-sidebar"
 
 const navigationGroups = [
     {
@@ -68,7 +66,7 @@ const navigationGroups = [
     }
 ]
 
-function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
+function SidebarItem({ item, pathname, onNavigate }: { item: any, pathname: string, onNavigate?: () => void }) {
     const isChildActive = item.subItems ? item.subItems.some((sub: any) => pathname === sub.href) : false
     const [isOpen, setIsOpen] = useState(true)
 
@@ -77,6 +75,7 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
         return (
             <Link
                 href={item.href}
+                onClick={onNavigate}
                 className={cn(
                     "group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                     isActive
@@ -98,7 +97,7 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
             <div className="flex items-center w-full group/header relative">
                 <Link
                     href={item.subItems[0].href}
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => { setIsOpen(true); onNavigate?.() }}
                     className={cn(
                         "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 w-full text-left",
                         isChildActive
@@ -126,7 +125,6 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
 
             <div className={cn("overflow-hidden transition-all duration-200", isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0")}>
                 <div className="flex flex-col relative space-y-1 mt-1 pb-1">
-                    {/* Linha vertical principal conectora conectando todos menos o último */}
                     {item.subItems.length > 1 && (
                         <div className="absolute left-[21px] top-0 bottom-[18px] w-px bg-border/60 pointer-events-none" />
                     )}
@@ -139,6 +137,7 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
                             <Link
                                 key={subItem.name}
                                 href={subItem.href}
+                                onClick={onNavigate}
                                 className={cn(
                                     "relative flex items-center py-2 pr-3 pl-[42px] text-sm font-medium rounded-lg transition-all duration-200",
                                     isSubActive
@@ -146,12 +145,10 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
                                         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                 )}
                             >
-                                {/* Curva (elbow) para o último item, senão ramificação reta */}
                                 <div className={cn(
                                     "absolute left-[21px] w-4 border-b border-border/60 pointer-events-none",
                                     isLast ? "top-0 h-1/2 border-l rounded-bl-xl" : "top-1/2 h-px"
                                 )} />
-
                                 {subItem.name}
                             </Link>
                         )
@@ -162,8 +159,7 @@ function SidebarItem({ item, pathname }: { item: any, pathname: string }) {
     )
 }
 
-export function Sidebar() {
-    const pathname = usePathname()
+function SidebarContent({ pathname, onNavigate }: { pathname: string, onNavigate?: () => void }) {
     const router = useRouter()
     const supabase = createClient()
 
@@ -174,7 +170,7 @@ export function Sidebar() {
     }
 
     return (
-        <aside className="hidden lg:flex w-64 flex-col fixed inset-y-0 z-50">
+        <div className="flex flex-col h-full">
             <div className="pl-6 pr-3 pt-6 pb-4 flex-shrink-0">
                 <div className="flex items-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -200,7 +196,7 @@ export function Sidebar() {
                         </h3>
                         <nav className="space-y-1">
                             {group.items.map((item) => (
-                                <SidebarItem key={item.name} item={item} pathname={pathname} />
+                                <SidebarItem key={item.name} item={item} pathname={pathname} onNavigate={onNavigate} />
                             ))}
                         </nav>
                     </div>
@@ -210,6 +206,7 @@ export function Sidebar() {
             <div className="mt-auto px-4 py-4 flex items-center justify-between text-muted-foreground border-t border-border/40 bg-muted/5">
                 <Link
                     href="/configuracoes"
+                    onClick={onNavigate}
                     className={cn(
                         "flex items-center gap-1.5 transition-all text-[11px] font-semibold uppercase tracking-tight hover:text-foreground",
                         pathname === "/configuracoes" && "text-primary"
@@ -233,6 +230,55 @@ export function Sidebar() {
                     Sair
                 </button>
             </div>
-        </aside>
+        </div>
+    )
+}
+
+export function Sidebar() {
+    const pathname = usePathname()
+    const { isOpen, close } = useMobileSidebar()
+
+    // Fecha o sidebar ao mudar de rota (mobile)
+    useEffect(() => {
+        close()
+    }, [pathname])
+
+    return (
+        <>
+            {/* ── Desktop: sidebar fixa ── */}
+            <aside className="hidden lg:flex w-64 flex-col fixed inset-y-0 z-50">
+                <SidebarContent pathname={pathname} />
+            </aside>
+
+            {/* ── Mobile: overlay + drawer deslizante ── */}
+            {/* Overlay escuro */}
+            <div
+                className={cn(
+                    "lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300",
+                    isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                )}
+                onClick={close}
+                aria-hidden="true"
+            />
+
+            {/* Drawer */}
+            <aside
+                className={cn(
+                    "lg:hidden fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border shadow-2xl flex flex-col transition-transform duration-300 ease-in-out",
+                    isOpen ? "translate-x-0" : "-translate-x-full"
+                )}
+            >
+                {/* Botão fechar */}
+                <button
+                    onClick={close}
+                    className="absolute top-4 right-4 p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    aria-label="Fechar menu"
+                >
+                    <X className="h-5 w-5" />
+                </button>
+
+                <SidebarContent pathname={pathname} onNavigate={close} />
+            </aside>
+        </>
     )
 }

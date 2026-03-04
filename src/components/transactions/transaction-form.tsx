@@ -81,6 +81,12 @@ interface TransactionFormProps {
     initialData?: any // Para edição
 }
 
+function getLocalDate() {
+    const d = new Date()
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+    return d.toISOString().split('T')[0]
+}
+
 export function TransactionForm({ open, onOpenChange, onSuccess, initialData }: TransactionFormProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [categories, setCategories] = useState<any[]>([])
@@ -95,7 +101,7 @@ export function TransactionForm({ open, onOpenChange, onSuccess, initialData }: 
             type: "expense",
             description: "",
             amount: 0,
-            date: new Date().toISOString().split('T')[0],
+            date: getLocalDate(),
             account_id: "",
             target_account_id: "none",
             category_id: "none",
@@ -125,7 +131,7 @@ export function TransactionForm({ open, onOpenChange, onSuccess, initialData }: 
                 type: "expense",
                 description: "",
                 amount: 0,
-                date: new Date().toISOString().split('T')[0],
+                date: getLocalDate(),
                 account_id: accounts.length > 0 ? accounts[0].id : "",
                 target_account_id: "none",
                 category_id: "none",

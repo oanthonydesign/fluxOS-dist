@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { useAccountType } from "@/hooks/use-account-type"
+import { useMobileSidebar } from "@/hooks/use-mobile-sidebar"
 import {
     Plus,
     ChevronLeft,
@@ -16,6 +17,7 @@ import { ptBR } from "date-fns/locale"
 
 export function Header() {
     const { isPersonal, toggleAccountType, selectedMonth, setSelectedMonth } = useAccountType()
+    const { toggle: toggleMobileSidebar } = useMobileSidebar()
     const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false)
 
     const handlePrevMonth = () => setSelectedMonth(subMonths(selectedMonth, 1))
@@ -25,7 +27,7 @@ export function Header() {
         <header className="h-20 bg-transparent sticky top-0 z-40">
             <div className="max-w-full mx-auto px-4 lg:pl-3 lg:pr-6 h-full flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" className="lg:hidden text-muted-foreground hover:bg-muted dark:hover:bg-muted">
+                    <Button variant="ghost" size="icon" className="lg:hidden text-muted-foreground hover:bg-muted dark:hover:bg-muted" onClick={toggleMobileSidebar}>
                         <Menu className="h-5 w-5" />
                     </Button>
 

@@ -13,5 +13,12 @@ export function formatCurrency(value: number) {
 }
 
 export function formatDate(date: string | Date) {
-    return new Intl.DateTimeFormat("pt-BR").format(new Date(date))
+    let d = new Date(date)
+    // Se for uma string (como do banco de dados), fixamos para o meio-dia local
+    // para que a formatação nunca reduza ou avance um dia devido ao fuso horário
+    if (typeof date === "string" && date.length >= 10) {
+        const justDate = date.split("T")[0]
+        d = new Date(`${justDate}T12:00:00`)
+    }
+    return new Intl.DateTimeFormat("pt-BR").format(d)
 }

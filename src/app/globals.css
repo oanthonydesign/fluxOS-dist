@@ -265,8 +265,8 @@
   padding: 40px;
   overflow: hidden;
   flex-shrink: 0;
-  border-radius: 16px;
-  /* Ajustado para 16px conforme solicitado */
+  border-radius: 24px;
+  /* Ajustado para 24px conforme solicitado */
 }
 
 .login-hero-image {
@@ -506,7 +506,7 @@
     width: 100%;
     min-height: 260px;
     padding: 24px;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 24px 24px;
   }
 
   .login-hero-title {
