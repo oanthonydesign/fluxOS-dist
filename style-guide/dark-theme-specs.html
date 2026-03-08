@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Theme — Especificações Visuais</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0A0A0A; color: #E5E7EB; }
+  .header { background: linear-gradient(135deg, #18181B 0%, #0A0A0A 100%); color: white; padding: 48px 64px; border-bottom: 1px solid #27272A; }
+  .header h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 16px; color: #A1A1AA; }
+  .header .sources { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .source-tag { background: rgba(255,255,255,0.05); border: 1px solid #27272A; border-radius: 6px; padding: 4px 12px; font-size: 12px; color: #A1A1AA; }
+  .content { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+  .section { background: #18181B; border-radius: 12px; border: 1px solid #27272A; padding: 32px; margin-bottom: 24px; }
+  .section-title { font-size: 20px; font-weight: 700; color: #FAFAFA; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .section-title span { font-size: 22px; }
+  .section-sub { font-size: 11px; font-weight: 600; color: #71717A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; margin-top: 24px; }
+  .section-sub:first-of-type { margin-top: 0; }
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .color-card { border-radius: 8px; overflow: hidden; border: 1px solid #27272A; background: #0A0A0A; }
+  .color-swatch { height: 64px; }
+  .color-info { padding: 10px 12px; }
+  .color-name { font-size: 12px; font-weight: 600; color: #FAFAFA; margin-bottom: 2px; }
+  .color-hex { font-size: 11px; color: #71717A; font-family: 'SF Mono', monospace; }
+  .color-use { font-size: 10px; color: #52525B; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
+  th { text-align: left; font-size: 11px; font-weight: 600; color: #71717A; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; border-bottom: 1px solid #27272A; }
+  td { padding: 10px 12px; border-bottom: 1px solid #18181B; color: #A1A1AA; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  code { background: #27272A; border-radius: 4px; padding: 2px 6px; font-size: 12px; font-family: 'SF Mono', monospace; color: #D4D4D8; }
+  pre { background: #0A0A0A; color: #D4D4D8; border-radius: 8px; border: 1px solid #27272A; padding: 20px; font-size: 12px; font-family: 'SF Mono', monospace; overflow-x: auto; line-height: 1.7; margin-top: 16px; }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+  .comp-demo { background: #0A0A0A; border: 1px solid #27272A; border-radius: 8px; padding: 16px; }
+  .comp-demo:hover { border-color: #3F3F46; }
+  .comp-title { font-size: 12px; font-weight: 600; color: #FAFAFA; margin-bottom: 4px; }
+  .comp-desc { font-size: 11px; color: #71717A; line-height: 1.5; }
+  .qr { background: #0A0A0A; border-radius: 10px; border: 1px solid #27272A; padding: 24px; color: #D4D4D8; font-family: 'SF Mono', monospace; font-size: 12px; line-height: 1.9; }
+  .qr-key { color: #71717A; }
+  .qr-val { color: #10B981; }
+  .sidebar-demo { background: #18181B; border: 1px solid #27272A; border-radius: 8px; padding: 16px; max-width: 240px; }
+  .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #A1A1AA; margin-bottom: 2px; cursor: pointer; transition: all 0.15s; }
+  .sidebar-item:hover { background: #27272A; color: #FAFAFA; }
+  .sidebar-item.active { background: #3F3F46; color: #FAFAFA; }
+  .card-dark { background: #18181B; border: 1px solid #27272A; border-radius: 8px; padding: 16px; max-width: 280px; }
+  .card-dark:hover { border-color: #3F3F46; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .card-dark-title { font-size: 14px; font-weight: 600; color: #FAFAFA; margin-bottom: 8px; }
+  .card-dark-desc { font-size: 12px; color: #A1A1AA; line-height: 1.5; }
+  .input-dark { width: 100%; background: #0A0A0A; border: 1px solid #27272A; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #FAFAFA; font-family: inherit; }
+  .input-dark:focus { outline: none; border-color: #3F3F46; background: #18181B; }
+  .input-dark::placeholder { color: #52525B; }
+  .button-dark { background: #FAFAFA; color: #0A0A0A; border: none; border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .button-dark:hover { background: #E5E7EB; }
+  .button-outline { background: transparent; color: #A1A1AA; border: 1px solid #27272A; }
+  .button-outline:hover { background: #18181B; border-color: #3F3F46; color: #FAFAFA; }
+  .accent-green { color: #10B981; }
+  .accent-emerald { color: #10B981; }
+  .accent-blue { color: #3B82F6; }
+  .accent-purple { color: #8B5CF6; }
+  .accent-pink { color: #EC4899; }
+  .accent-amber { color: #F59E0B; }
+  @media (max-width: 700px) { .header { padding: 32px 24px; } .content { padding: 24px 16px; } .comp-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Dark Theme — Especificações Visuais</h1>
+  <p>Sistema de cores, componentes e elementos visuais extraídos de 4 interfaces dark</p>
+  <div class="sources">
+    <span class="source-tag">Supabase Docs</span>
+    <span class="source-tag">Lunor Dashboard</span>
+    <span class="source-tag">Knockturnals Invoice</span>
+    <span class="source-tag">Courtney Henry Tasks</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- PALETA DARK -->
+  <div class="section">
+    <div class="section-title"><span>🎨</span> Paleta de Cores Dark</div>
+    
+    <div class="section-sub">Backgrounds Principais</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#0A0A0A;"></div>
+        <div class="color-info">
+          <div class="color-name">Preto Profundo</div>
+          <div class="color-hex">#0A0A0A</div>
+          <div class="color-use">Background principal, inputs</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#18181B;"></div>
+        <div class="color-info">
+          <div class="color-name">Cinza Escuro 900</div>
+          <div class="color-hex">#18181B</div>
+          <div class="color-use">Cards, sidebars, seções</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#1C1C1E;"></div>
+        <div class="color-info">
+          <div class="color-name">Cinza Escuro 850</div>
+          <div class="color-hex">#1C1C1E</div>
+          <div class="color-use">Cards elevados, modais</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Cinza Escuro 800</div>
+          <div class="color-hex">#27272A</div>
+          <div class="color-use">Hover states, inputs ativos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Bordas e Divisores</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Padrão</div>
+          <div class="color-hex">#27272A</div>
+          <div class="color-use">Bordas de cards, inputs</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3F3F46;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Hover</div>
+          <div class="color-hex">#3F3F46</div>
+          <div class="color-use">Hover em cards, focus</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#52525B;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Ativa</div>
+          <div class="color-hex">#52525B</div>
+          <div class="color-use">Elementos selecionados</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#1F1F23;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Sutil</div>
+          <div class="color-hex">#1F1F23</div>
+          <div class="color-use">Divisores sutis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Hierarquia de Texto</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#FAFAFA;border:1px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Primário</div>
+          <div class="color-hex">#FAFAFA</div>
+          <div class="color-use">Títulos, headings principais</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#E5E7EB;border:1px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Secundário</div>
+          <div class="color-hex">#E5E7EB</div>
+          <div class="color-use">Corpo de texto, parágrafos</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#A1A1AA;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Terciário</div>
+          <div class="color-hex">#A1A1AA</div>
+          <div class="color-use">Metadados, labels, hints</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#71717A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Suave</div>
+          <div class="color-hex">#71717A</div>
+          <div class="color-use">Texto desabilitado, subtle</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#52525B;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Placeholder</div>
+          <div class="color-hex">#52525B</div>
+          <div class="color-use">Placeholders de input</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3F3F46;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Muito Suave</div>
+          <div class="color-hex">#3F3F46</div>
+          <div class="color-use">Texto extremamente sutil</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Cores de Acento</div>
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#10B981;"></div>
+        <div class="color-info">
+          <div class="color-name">Verde Esmeralda</div>
+          <div class="color-hex">#10B981</div>
+          <div class="color-use">Sucesso, ativo, concluído</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3B82F6;"></div>
+        <div class="color-info">
+          <div class="color-name">Azul Primário</div>
+          <div class="color-hex">#3B82F6</div>
+          <div class="color-use">Links, ações primárias</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#8B5CF6;"></div>
+        <div class="color-info">
+          <div class="color-name">Roxo Violet</div>
+          <div class="color-hex">#8B5CF6</div>
+          <div class="color-use">Badges especiais, destaque</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#EC4899;"></div>
+        <div class="color-info">
+          <div class="color-name">Rosa Pink</div>
+          <div class="color-hex">#EC4899</div>
+          <div class="color-use">Alertas importantes, tags</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#F59E0B;"></div>
+        <div class="color-info">
+          <div class="color-name">Âmbar Laranja</div>
+          <div class="color-hex">#F59E0B</div>
+          <div class="color-use">Avisos, pendente</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#EF4444;"></div>
+        <div class="color-info">
+          <div class="color-name">Vermelho Erro</div>
+          <div class="color-hex">#EF4444</div>
+          <div class="color-use">Erros, crítico, deletar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTES VISUAIS -->
+  <div class="section">
+    <div class="section-title"><span>🧩</span> Componentes Dark</div>
+
+    <div class="section-sub">Cards Dark</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;">
+      <div class="card-dark">
+        <div class="card-dark-title">Database</div>
+        <div class="card-dark-desc">Supabase provides a full Postgres database for every project with Realtime functionality, database backups, extensions, and more.</div>
+      </div>
+      <div class="card-dark" style="border-color:#10B981;">
+        <div class="card-dark-title" style="color:#10B981;">Auth (Destaque)</div>
+        <div class="card-dark-desc">Add and manage email and password, passwordless, OAuth, and mobile logins to your project through a suite of identity providers and APIs.</div>
+      </div>
+    </div>
+    <pre style="margin-top:16px;">/* Card Dark Padrão */
+.card-dark {
+  background: #18181B;
+  border: 1px solid #27272A;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.15s ease;
+}
+.card-dark:hover {
+  border-color: #3F3F46;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}</pre>
+
+    <div class="section-sub">Inputs e Forms</div>
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin-top:16px;">
+      <input type="text" class="input-dark" placeholder="Search docs..." />
+      <input type="text" class="input-dark" placeholder="First Name" />
+      <input type="text" class="input-dark" placeholder="Invoice Number" style="background:#18181B;border-color:#3F3F46;" />
+    </div>
+    <pre style="margin-top:16px;">/* Input Dark */
+.input-dark {
+  background: #0A0A0A;
+  border: 1px solid #27272A;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #FAFAFA;
+  font-size: 13px;
+}
+.input-dark:focus {
+  outline: none;
+  border-color: #3F3F46;
+  background: #18181B;
+}
+.input-dark::placeholder {
+  color: #52525B;
+}</pre>
+
+    <div class="section-sub">Botões Dark</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+      <button class="button-dark">Send Invoice</button>
+      <button class="button-dark" style="background:#10B981;">Upgrade Now</button>
+      <button class="button-outline">Save as Draft</button>
+      <button class="button-outline" style="border-color:#3F3F46;color:#FAFAFA;">Hide Preview</button>
+    </div>
+    <pre style="margin-top:16px;">/* Botão Primário Dark */
+.button-dark {
+  background: #FAFAFA;
+  color: #0A0A0A;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.button-dark:hover {
+  background: #E5E7EB;
+}
+
+/* Botão Outline Dark */
+.button-outline {
+  background: transparent;
+  color: #A1A1AA;
+  border: 1px solid #27272A;
+}
+.button-outline:hover {
+  background: #18181B;
+  border-color: #3F3F46;
+  color: #FAFAFA;
+}</pre>
+
+    <div class="section-sub">Navegação Sidebar Dark</div>
+    <div class="sidebar-demo">
+      <div style="font-size:10px;color:#52525B;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">MENU</div>
+      <div class="sidebar-item">🔍 Search</div>
+      <div class="sidebar-item active">📋 Dashboard</div>
+      <div class="sidebar-item">📊 Analytics</div>
+      <div class="sidebar-item">🎨 Templates</div>
+      <div class="sidebar-item">👥 Clients</div>
+      <div class="sidebar-item">⚙️ Settings</div>
+    </div>
+    <pre style="margin-top:16px;">/* Sidebar Dark */
+.sidebar {
+  background: #18181B;
+  border: 1px solid #27272A;
+  padding: 16px;
+}
+.sidebar-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #A1A1AA;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.sidebar-item:hover {
+  background: #27272A;
+  color: #FAFAFA;
+}
+.sidebar-item.active {
+  background: #3F3F46;
+  color: #FAFAFA;
+}</pre>
+  </div>
+
+  <!-- TABELA DE ESPECIFICAÇÕES -->
+  <div class="section">
+    <div class="section-title"><span>📋</span> Tabela Completa de Especificações</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Elemento</th>
+          <th>Background</th>
+          <th>Borda</th>
+          <th>Texto</th>
+          <th>Hover/Focus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Page Background</strong></td>
+          <td><code>#0A0A0A</code></td>
+          <td>—</td>
+          <td><code>#E5E7EB</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Card Padrão</strong></td>
+          <td><code>#18181B</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#FAFAFA</code></td>
+          <td>Borda <code>#3F3F46</code></td>
+        </tr>
+        <tr>
+          <td><strong>Card Elevado</strong></td>
+          <td><code>#1C1C1E</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#FAFAFA</code></td>
+          <td>Shadow <code>0 4px 20px rgba(0,0,0,0.4)</code></td>
+        </tr>
+        <tr>
+          <td><strong>Sidebar</strong></td>
+          <td><code>#18181B</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#A1A1AA</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Sidebar Item</strong></td>
+          <td>Transparent</td>
+          <td>—</td>
+          <td><code>#A1A1AA</code></td>
+          <td>BG <code>#27272A</code>, Texto <code>#FAFAFA</code></td>
+        </tr>
+        <tr>
+          <td><strong>Sidebar Ativo</strong></td>
+          <td><code>#3F3F46</code></td>
+          <td>—</td>
+          <td><code>#FAFAFA</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Input Padrão</strong></td>
+          <td><code>#0A0A0A</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#FAFAFA</code></td>
+          <td>BG <code>#18181B</code>, Borda <code>#3F3F46</code></td>
+        </tr>
+        <tr>
+          <td><strong>Input Placeholder</strong></td>
+          <td>—</td>
+          <td>—</td>
+          <td><code>#52525B</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Botão Primário</strong></td>
+          <td><code>#FAFAFA</code></td>
+          <td>—</td>
+          <td><code>#0A0A0A</code></td>
+          <td>BG <code>#E5E7EB</code></td>
+        </tr>
+        <tr>
+          <td><strong>Botão Outline</strong></td>
+          <td>Transparent</td>
+          <td><code>#27272A</code></td>
+          <td><code>#A1A1AA</code></td>
+          <td>BG <code>#18181B</code>, Borda <code>#3F3F46</code></td>
+        </tr>
+        <tr>
+          <td><strong>Badge Sucesso</strong></td>
+          <td><code>#10B981</code> 10% opacity</td>
+          <td><code>#10B981</code></td>
+          <td><code>#10B981</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Badge Warning</strong></td>
+          <td><code>#F59E0B</code> 10% opacity</td>
+          <td><code>#F59E0B</code></td>
+          <td><code>#F59E0B</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Badge Error</strong></td>
+          <td><code>#EF4444</code> 10% opacity</td>
+          <td><code>#EF4444</code></td>
+          <td><code>#EF4444</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Divisor Horizontal</strong></td>
+          <td>—</td>
+          <td><code>#27272A</code> ou <code>#1F1F23</code></td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Modal/Dialog</strong></td>
+          <td><code>#1C1C1E</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#FAFAFA</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Dropdown</strong></td>
+          <td><code>#18181B</code></td>
+          <td><code>#27272A</code></td>
+          <td><code>#FAFAFA</code></td>
+          <td>Item hover: <code>#27272A</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SOMBRAS E EFEITOS -->
+  <div class="section">
+    <div class="section-title"><span>🌫️</span> Sombras e Efeitos Dark</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Valor CSS</th>
+          <th>Uso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Shadow SM</strong></td>
+          <td><code>0 1px 3px rgba(0,0,0,0.5)</code></td>
+          <td>Cards em repouso</td>
+        </tr>
+        <tr>
+          <td><strong>Shadow MD</strong></td>
+          <td><code>0 4px 12px rgba(0,0,0,0.4)</code></td>
+          <td>Cards hover, dropdowns</td>
+        </tr>
+        <tr>
+          <td><strong>Shadow LG</strong></td>
+          <td><code>0 8px 24px rgba(0,0,0,0.5)</code></td>
+          <td>Modais, overlays</td>
+        </tr>
+        <tr>
+          <td><strong>Shadow XL</strong></td>
+          <td><code>0 20px 60px rgba(0,0,0,0.6)</code></td>
+          <td>Dialogs importantes</td>
+        </tr>
+        <tr>
+          <td><strong>Inset Shadow</strong></td>
+          <td><code>inset 0 2px 4px rgba(0,0,0,0.3)</code></td>
+          <td>Inputs, áreas recuadas</td>
+        </tr>
+        <tr>
+          <td><strong>Glow Verde</strong></td>
+          <td><code>0 0 20px rgba(16,185,129,0.3)</code></td>
+          <td>Elementos ativos, destaque</td>
+        </tr>
+        <tr>
+          <td><strong>Glow Azul</strong></td>
+          <td><code>0 0 20px rgba(59,130,246,0.3)</code></td>
+          <td>Focus em inputs</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIPOGRAFIA DARK -->
+  <div class="section">
+    <div class="section-title"><span>🔤</span> Tipografia no Dark Theme</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Elemento</th>
+          <th>Tamanho</th>
+          <th>Peso</th>
+          <th>Cor</th>
+          <th>Line Height</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Page Title</strong></td>
+          <td>32–36px</td>
+          <td>700</td>
+          <td><code>#FAFAFA</code></td>
+          <td>1.2</td>
+        </tr>
+        <tr>
+          <td><strong>Section Heading</strong></td>
+          <td>24px</td>
+          <td>700</td>
+          <td><code>#FAFAFA</code></td>
+          <td>1.3</td>
+        </tr>
+        <tr>
+          <td><strong>Card Title</strong></td>
+          <td>15–16px</td>
+          <td>600</td>
+          <td><code>#FAFAFA</code></td>
+          <td>1.4</td>
+        </tr>
+        <tr>
+          <td><strong>Body Text</strong></td>
+          <td>14px</td>
+          <td>400</td>
+          <td><code>#E5E7EB</code></td>
+          <td>1.6</td>
+        </tr>
+        <tr>
+          <td><strong>Small Text</strong></td>
+          <td>13px</td>
+          <td>400</td>
+          <td><code>#A1A1AA</code></td>
+          <td>1.5</td>
+        </tr>
+        <tr>
+          <td><strong>Caption/Label</strong></td>
+          <td>11–12px</td>
+          <td>500–600</td>
+          <td><code>#71717A</code></td>
+          <td>1.4</td>
+        </tr>
+        <tr>
+          <td><strong>Sidebar Nav</strong></td>
+          <td>13px</td>
+          <td>400–500</td>
+          <td><code>#A1A1AA</code></td>
+          <td>1.5</td>
+        </tr>
+        <tr>
+          <td><strong>Button Text</strong></td>
+          <td>13–14px</td>
+          <td>600</td>
+          <td><code>#0A0A0A</code> ou <code>#FAFAFA</code></td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REFERÊNCIA RÁPIDA -->
+  <div class="section">
+    <div class="section-title"><span>⚡</span> Referência Rápida Dark Theme</div>
+    <div class="qr">
+<span class="qr-key">BACKGROUNDS ─────────────────────────────────</span>
+  Page Background      <span class="qr-val">#0A0A0A</span>
+  Card / Sidebar       <span class="qr-val">#18181B</span>
+  Card Elevado         <span class="qr-val">#1C1C1E</span>
+  Hover Background     <span class="qr-val">#27272A</span>
+  Active Background    <span class="qr-val">#3F3F46</span>
+
+<span class="qr-key">BORDAS ──────────────────────────────────────</span>
+  Borda Padrão         <span class="qr-val">#27272A</span>
+  Borda Hover          <span class="qr-val">#3F3F46</span>
+  Borda Ativa          <span class="qr-val">#52525B</span>
+  Divisor Sutil        <span class="qr-val">#1F1F23</span>
+
+<span class="qr-key">TEXTO ───────────────────────────────────────</span>
+  Primário (Títulos)   <span class="qr-val">#FAFAFA</span>
+  Secundário (Corpo)   <span class="qr-val">#E5E7EB</span>
+  Terciário (Metadata) <span class="qr-val">#A1A1AA</span>
+  Suave (Labels)       <span class="qr-val">#71717A</span>
+  Placeholder          <span class="qr-val">#52525B</span>
+
+<span class="qr-key">ACENTOS ─────────────────────────────────────</span>
+  Verde Sucesso        <span class="qr-val">#10B981</span>
+  Azul Primary         <span class="qr-val">#3B82F6</span>
+  Roxo Destaque        <span class="qr-val">#8B5CF6</span>
+  Rosa Alerta          <span class="qr-val">#EC4899</span>
+  Âmbar Warning        <span class="qr-val">#F59E0B</span>
+  Vermelho Erro        <span class="qr-val">#EF4444</span>
+
+<span class="qr-key">SOMBRAS ─────────────────────────────────────</span>
+  sm  <span class="qr-val">0 1px 3px rgba(0,0,0,0.5)</span>
+  md  <span class="qr-val">0 4px 12px rgba(0,0,0,0.4)</span>
+  lg  <span class="qr-val">0 8px 24px rgba(0,0,0,0.5)</span>
+  xl  <span class="qr-val">0 20px 60px rgba(0,0,0,0.6)</span>
+
+<span class="qr-key">RAIO ────────────────────────────────────────</span>
+  Input/Button: 6px  ·  Card: 8px  ·  Modal: 12px
+
+<span class="qr-key">FONTE ───────────────────────────────────────</span>
+  Inter, -apple-system, sans-serif
+  Peso: 400 (body) → 600 (cards) → 700 (títulos)</div>
+  </div>
+
+  <p style="font-size:11px;color:#52525B;text-align:center;padding:24px 0;">Sistema Dark Theme extraído de Supabase, Lunor, Knockturnals e Courtney Henry · Fevereiro 2026</p>
+</div>
+
+</body>
+</html>

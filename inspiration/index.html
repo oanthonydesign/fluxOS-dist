@@ -1,0 +1,358 @@
+<html lang="pt-BR" class="antialiased"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            500: '#6b7280',
+                            600: '#4b5563',
+                            700: '#374151',
+                            800: '#1f2937',
+                            900: '#111827',
+                        },
+                        brand: {
+                            500: '#2563eb', // Blue-600 equivalent
+                            600: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1d5db;
+        }
+        
+        /* Subtler checkboxes */
+        input[type="checkbox"] {
+            accent-color: #111827;
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col justify-between h-full flex-shrink-0">
+        <div>
+            <!-- Logo Area -->
+            <div class="h-16 flex items-center px-6 border-b border-gray-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center text-white">
+                        <span class="font-medium tracking-tight text-sm">F</span>
+                    </div>
+                    <span class="font-medium tracking-tight text-sm">Financeiro</span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="p-4 space-y-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium bg-gray-50 text-gray-900 rounded-md group">
+                    <iconify-icon icon="solar:widget-linear" class="text-gray-900" width="18" height="18"></iconify-icon>
+                    Visão Geral
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors group">
+                    <iconify-icon icon="solar:transfer-horizontal-linear" class="text-gray-400 group-hover:text-gray-900 transition-colors" width="18" height="18"></iconify-icon>
+                    Lançamentos
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors group">
+                    <iconify-icon icon="solar:card-linear" class="text-gray-400 group-hover:text-gray-900 transition-colors" width="18" height="18"></iconify-icon>
+                    Cartões
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors group">
+                    <iconify-icon icon="solar:bill-list-linear" class="text-gray-400 group-hover:text-gray-900 transition-colors" width="18" height="18"></iconify-icon>
+                    Contas Fixas
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors group">
+                    <iconify-icon icon="solar:target-linear" class="text-gray-400 group-hover:text-gray-900 transition-colors" width="18" height="18"></iconify-icon>
+                    Metas
+                </a>
+            </nav>
+        </div>
+
+        <!-- User / Settings -->
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center gap-3 px-2 py-2 mb-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-gray-200 to-gray-300 flex items-center justify-center text-xs font-medium text-gray-600">
+                    JD
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate">João Designer</p>
+                    <p class="text-xs text-gray-500 truncate">Licença Pro</p>
+                </div>
+            </div>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">
+                <iconify-icon icon="solar:settings-linear" class="text-gray-400" width="18" height="18"></iconify-icon>
+                Configurações
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 md:px-8 flex-shrink-0 z-10">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-gray-500">
+                    <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
+                </button>
+                <div class="flex items-center gap-2 text-gray-400 text-sm">
+                    <span>Fevereiro 2026</span>
+                    <iconify-icon icon="solar:alt-arrow-down-linear" width="14"></iconify-icon>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- PF/PJ Toggle Switch -->
+                <div class="bg-gray-100 p-1 rounded-lg flex items-center">
+                    <button class="px-4 py-1.5 rounded-md text-xs font-medium text-gray-500 hover:text-gray-900 transition-colors">Pessoal</button>
+                    <button class="px-4 py-1.5 bg-white rounded-md shadow-sm text-xs font-medium text-gray-900 border border-gray-200">Empresa</button>
+                </div>
+                
+                <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+
+                <button class="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
+                    <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+                    <span class="hidden sm:inline">Nova Transação</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6 md:p-8">
+            <div class="max-w-6xl mx-auto space-y-8">
+                
+                <!-- Page Title -->
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-2xl font-semibold tracking-tight text-gray-900">Visão Geral</h1>
+                    <p class="text-sm text-gray-500">Acompanhe o fluxo de caixa da sua empresa.</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Balance -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-gray-50 rounded-lg border border-gray-100">
+                                <iconify-icon icon="solar:wallet-money-linear" class="text-gray-900" width="20"></iconify-icon>
+                            </div>
+                            <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+12%</span>
+                        </div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Saldo Atual</p>
+                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">R$ 14.250,00</h3>
+                    </div>
+
+                    <!-- Income -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-gray-50 rounded-lg border border-gray-100">
+                                <iconify-icon icon="solar:arrow-right-up-linear" class="text-gray-900" width="20"></iconify-icon>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Entradas</p>
+                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">R$ 8.400,00</h3>
+                    </div>
+
+                    <!-- Expense -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-gray-50 rounded-lg border border-gray-100">
+                                <iconify-icon icon="solar:arrow-right-down-linear" class="text-gray-900" width="20"></iconify-icon>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Saídas</p>
+                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">R$ 2.150,00</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Recent Transactions (Left 2/3) -->
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-base font-medium tracking-tight text-gray-900">Transações Recentes</h2>
+                            <button class="text-sm text-gray-500 hover:text-gray-900 font-medium">Ver todas</button>
+                        </div>
+
+                        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                            <!-- Transaction Item -->
+                            <div class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors group cursor-default">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 group-hover:bg-white transition-colors">
+                                        <iconify-icon icon="solar:laptop-3-linear" width="20"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Projeto Web Design</p>
+                                        <p class="text-xs text-gray-500">Agência XYZ • Entrada</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-green-600">+ R$ 4.500,00</p>
+                                    <p class="text-xs text-gray-400">Hoje</p>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item -->
+                            <div class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors group cursor-default">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 group-hover:bg-white transition-colors">
+                                        <iconify-icon icon="solar:cloud-storage-linear" width="20"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Assinatura Vercel</p>
+                                        <p class="text-xs text-gray-500">Software • Saída</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-900">- R$ 120,00</p>
+                                    <p class="text-xs text-gray-400">Ontem</p>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item -->
+                            <div class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors group cursor-default">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 group-hover:bg-white transition-colors">
+                                        <iconify-icon icon="solar:chair-2-linear" width="20"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Cadeira Ergonomica</p>
+                                        <p class="text-xs text-gray-500">Escritório • Nubank (2/10)</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-900">- R$ 180,00</p>
+                                    <p class="text-xs text-gray-400">12 Fev</p>
+                                </div>
+                            </div>
+
+                             <!-- Transaction Item -->
+                             <div class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 group-hover:bg-white transition-colors">
+                                        <iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Consultoria UI</p>
+                                        <p class="text-xs text-gray-500">Cliente Paulo • Entrada</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-green-600">+ R$ 1.200,00</p>
+                                    <p class="text-xs text-gray-400">10 Fev</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Right (Goals & Fixed) -->
+                    <div class="flex flex-col gap-8">
+                        
+                        <!-- Goals -->
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-base font-medium tracking-tight text-gray-900">Metas</h2>
+                                <button class="p-1 text-gray-400 hover:text-gray-900 rounded-md hover:bg-gray-100">
+                                    <iconify-icon icon="solar:add-circle-linear" width="20"></iconify-icon>
+                                </button>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+                                <div class="flex justify-between items-end mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="p-1.5 bg-gray-50 rounded-md border border-gray-100">
+                                            <iconify-icon icon="solar:monitor-camera-linear" class="text-gray-700" width="16"></iconify-icon>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-900">MacBook Pro M3</span>
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-500">65%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-1.5 mb-2">
+                                    <div class="bg-gray-900 h-1.5 rounded-full" style="width: 65%"></div>
+                                </div>
+                                <p class="text-xs text-gray-400">R$ 13.000 de R$ 20.000</p>
+                            </div>
+                        </div>
+
+                        <!-- Fixed Bills -->
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-base font-medium tracking-tight text-gray-900">Próximas Contas</h2>
+                            </div>
+
+                            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                                <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-2 h-2 rounded-full bg-orange-400"></div>
+                                        <span class="text-sm font-medium text-gray-700">Contador</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-sm font-medium text-gray-900">R$ 350</span>
+                                        <p class="text-xs text-gray-400">Vence em 2 dias</p>
+                                    </div>
+                                </div>
+                                <div class="p-4 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                                        <span class="text-sm font-medium text-gray-700">Adobe CC</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-sm font-medium text-gray-900">R$ 280</span>
+                                        <p class="text-xs text-gray-400">Vence em 15 dias</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Footer/Watermark -->
+            <div class="mt-12 mb-4 text-center">
+                <p class="text-xs text-gray-300 font-medium tracking-tight">LICENCIADO PARA JOÃO DESIGNER • ID 84930</p>
+            </div>
+        </div>
+    </main>
+
+
+</body></html>

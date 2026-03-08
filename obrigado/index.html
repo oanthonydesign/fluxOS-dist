@@ -1,0 +1,265 @@
+<html lang="pt-BR" class="antialiased">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #FAFAFA;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .gold-shimmer {
+            background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #3b82f6 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), transparent);
+        }
+    </style>
+</head>
+
+<body class="text-zinc-600 leading-relaxed overflow-x-hidden bg-zinc-50">
+
+    <!-- Canvas para Confetes -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Fundo Decorativo -->
+    <div class="fixed inset-0 -z-10 bg-[#FAFAFA]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#e4e4e7,transparent)]"></div>
+        <div class="absolute inset-0 opacity-[0.04]"
+            style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 40px 40px;"></div>
+    </div>
+
+    <!-- Header -->
+    <nav class="w-full py-8 px-6 flex justify-center items-center">
+        <img src="../public/fluxos-logo-light.svg" alt="FluxOS Logo" class="h-8">
+    </nav>
+
+    <main class="max-w-[1100px] mx-auto px-6 pb-24">
+
+        <!-- Hero Section -->
+        <section class="text-center mt-12 md:mt-20 animate-fade-up" style="animation-delay: 0.1s;">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-[0.7rem] font-medium tracking-[0.15em] mb-8 shadow-sm">
+                <iconify-icon icon="solar:star-fall-minimalistic-linear" class="text-base"></iconify-icon>
+                COMPRA CONFIRMADA
+            </div>
+
+            <h1
+                class="text-3xl md:text-[3.5rem] text-zinc-900 font-bold tracking-tight leading-[1.1] mb-6 max-w-5xl mx-auto">
+                Parabéns! Sua jornada rumo à soberania financeira começa agora.
+            </h1>
+
+            <p class="text-sm md:text-lg text-zinc-600 max-w-4xl mx-auto mb-12">
+                Você acaba de garantir a licença vitalícia do FluxOS no plano <span
+                    class="font-bold text-blue-600">White
+                    Glove</span>. Isso significa que você não precisa se preocupar com infraestrutura — nossa equipe
+                fará toda a implementação para você.
+            </p>
+
+            <!-- CTA Card -->
+            <div class="max-w-xl mx-auto glass-card rounded-3xl p-2 mb-20 group">
+                <div class="bg-white rounded-[1.4rem] p-8 border border-zinc-100 shadow-sm overflow-hidden relative">
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-400/20 blur-[80px] rounded-full"></div>
+
+                    <a href="https://wa.me/5547996068722?text=Fala%20Anthony%2C%20acabei%20de%20compra%20o%20FluxOS%20e%20queria%20agendar%20a%20implementa%C3%A7%C3%A3o%20do%20sistema%20com%20voc%C3%AAs"
+                        target="_blank" rel="noopener noreferrer"
+                        class="relative flex items-center justify-center gap-3 w-full py-4 px-8 rounded-xl bg-zinc-900 text-white font-semibold text-sm transition-transform active:scale-[0.98] hover:shadow-[0_0_20px_rgba(0,0,0,0.1)] hover:bg-zinc-800">
+                        <iconify-icon icon="solar:whatsapp-linear" class="text-xl"></iconify-icon>
+                        AGENDAR MINHA IMPLEMENTAÇÃO NO WHATSAPP
+                    </a>
+                    <p
+                        class="text-[0.75rem] text-zinc-500 mt-4 flex items-center justify-center gap-1.5 uppercase tracking-wider">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Toque aqui para falar com nosso time e marcar seu setup.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steps Section -->
+        <section class="mt-12 animate-fade-up" style="animation-delay: 0.3s;">
+            <h2 class="text-center text-zinc-900 text-xl font-bold tracking-tight mb-12">Seu sistema estará pronto em 3
+                passos simples:</h2>
+
+            <div class="grid md:grid-cols-3 gap-6 relative">
+                <!-- Passo 01 -->
+                <div
+                    class="glass-card bg-white p-8 rounded-2xl relative group hover:border-blue-300 transition-colors hover:shadow-md">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-6 shadow-sm">
+                        <iconify-icon icon="solar:calendar-date-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <div class="text-[0.7rem] font-bold text-blue-600/60 tracking-[0.15em] mb-2 uppercase">Passo 01
+                    </div>
+                    <h3 class="text-zinc-900 text-lg font-bold tracking-tight mb-3">Agendamento</h3>
+                    <p class="text-sm text-zinc-600">Após clicar no botão acima, você será direcionado ao nosso WhatsApp
+                        exclusivo para clientes White Glove.</p>
+                </div>
+
+                <!-- Passo 02 -->
+                <div
+                    class="glass-card bg-white p-8 rounded-2xl relative group hover:border-blue-300 transition-colors hover:shadow-md">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-6 shadow-sm">
+                        <iconify-icon icon="solar:cloud-upload-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <div class="text-[0.7rem] font-bold text-blue-600/60 tracking-[0.15em] mb-2 uppercase">Passo 02
+                    </div>
+                    <h3 class="text-zinc-900 text-lg font-bold tracking-tight mb-3">Preparação</h3>
+                    <p class="text-sm text-zinc-600">Vamos solicitar as informações básicas da sua hospedagem para
+                        realizarmos a instalação segura e privada.</p>
+                </div>
+
+                <!-- Passo 03 -->
+                <div
+                    class="glass-card bg-white p-8 rounded-2xl relative group hover:border-blue-300 transition-colors hover:shadow-md">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-6 shadow-sm">
+                        <iconify-icon icon="solar:rocket-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <div class="text-[0.7rem] font-bold text-blue-600/60 tracking-[0.15em] mb-2 uppercase">Passo 03
+                    </div>
+                    <h3 class="text-zinc-900 text-lg font-bold tracking-tight mb-3">Onboarding</h3>
+                    <p class="text-sm text-zinc-600">Com tudo instalado, faremos um tour guiado para você aprender a
+                        separar seu PF do PJ em menos de 2 minutos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Security -->
+        <footer class="mt-24 pt-12 border-t border-zinc-200 flex flex-col items-center animate-fade-up"
+            style="animation-delay: 0.5s;">
+            <div class="flex flex-col items-center text-center max-w-2xl">
+                <div
+                    class="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-200 shadow-sm flex items-center justify-center mb-6">
+                    <iconify-icon icon="solar:shield-check-linear" class="text-2xl text-zinc-500"></iconify-icon>
+                </div>
+                <h4 class="text-zinc-900 text-lg font-bold tracking-tight mb-2">Seus dados, seu cofre, sua chave.</h4>
+                <p class="text-xs text-zinc-500 mb-8">
+                    Reafirmamos nosso compromisso: como o FluxOS será instalado na sua própria estrutura, nós nunca
+                    teremos acesso aos seus números após o setup. Você tem 100% de privacidade e controle total, para
+                    sempre.
+                </p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Lógica de Confetes (Canvas API)
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const colors = ['#3B82F6', '#60A5FA', '#ffffff', '#71717a'];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor(side) {
+                this.x = side === 'left' ? 0 : canvas.width;
+                this.y = Math.random() * canvas.height * 0.4;
+                this.size = Math.random() * 6 + 4;
+                this.speedX = side === 'left' ? Math.random() * 10 + 5 : -(Math.random() * 10 + 5);
+                this.speedY = Math.random() * 5 + 2;
+                this.gravity = 0.2;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+            }
+
+            update() {
+                this.speedY += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function initConfetti() {
+            resize();
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    particles.push(new Particle('left'));
+                    particles.push(new Particle('right'));
+                }, i * 20);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.y > canvas.height) particles.splice(index, 1);
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        initConfetti();
+        animate();
+
+        // Parar após 5 segundos
+        setTimeout(() => {
+            particles = [];
+        }, 5000);
+    </script>
+
+</body>
+
+</html>

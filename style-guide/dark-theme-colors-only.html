@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Theme — Mapeamento de Cores</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0A0A0A; color: #E5E7EB; }
+  .header { background: linear-gradient(135deg, #18181B 0%, #0A0A0A 100%); color: white; padding: 48px 64px; border-bottom: 1px solid #27272A; }
+  .header h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 16px; color: #A1A1AA; }
+  .content { max-width: 1200px; margin: 0 auto; padding: 48px 32px; }
+  .section { background: #18181B; border-radius: 12px; border: 1px solid #27272A; padding: 32px; margin-bottom: 24px; }
+  .section-title { font-size: 20px; font-weight: 700; color: #FAFAFA; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .section-title span { font-size: 22px; }
+  .section-sub { font-size: 13px; font-weight: 600; color: #71717A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; margin-top: 28px; }
+  .section-sub:first-of-type { margin-top: 0; }
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .color-card { border-radius: 8px; overflow: hidden; border: 1px solid #27272A; background: #0A0A0A; transition: border-color 0.15s; }
+  .color-card:hover { border-color: #3F3F46; }
+  .color-swatch { height: 80px; position: relative; }
+  .color-info { padding: 12px; }
+  .color-name { font-size: 13px; font-weight: 600; color: #FAFAFA; margin-bottom: 4px; }
+  .color-hex { font-size: 12px; color: #3B82F6; font-family: 'SF Mono', monospace; font-weight: 500; }
+  .color-use { font-size: 11px; color: #71717A; margin-top: 6px; line-height: 1.4; }
+  .mapping-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .mapping-table th { text-align: left; font-size: 11px; font-weight: 600; color: #71717A; text-transform: uppercase; letter-spacing: 0.05em; padding: 10px 12px; border-bottom: 1px solid #27272A; }
+  .mapping-table td { padding: 12px; border-bottom: 1px solid #18181B; color: #A1A1AA; vertical-align: middle; font-size: 13px; }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table tr:hover { background: rgba(59,130,246,0.03); }
+  .mapping-table code { background: #27272A; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-family: 'SF Mono', monospace; color: #E5E7EB; }
+  .arrow { color: #52525B; font-weight: 700; font-size: 16px; }
+  .qr { background: #0A0A0A; border-radius: 10px; border: 1px solid #27272A; padding: 24px; color: #D4D4D8; font-family: 'SF Mono', monospace; font-size: 12px; line-height: 2; }
+  .qr-section { color: #71717A; font-weight: 700; margin-top: 16px; }
+  .qr-section:first-child { margin-top: 0; }
+  .qr-item { display: flex; justify-content: space-between; padding: 2px 0; }
+  .qr-label { color: #A1A1AA; }
+  .qr-value { color: #3B82F6; font-weight: 600; }
+  .warning-box { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .warning-box-title { font-size: 13px; font-weight: 600; color: #F59E0B; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .warning-box-text { font-size: 12px; color: #A1A1AA; line-height: 1.6; }
+  .success-box { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .success-box-title { font-size: 13px; font-weight: 600; color: #10B981; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .success-box-text { font-size: 12px; color: #A1A1AA; line-height: 1.6; }
+  .css-var { background: #18181B; border: 1px solid #27272A; border-radius: 8px; padding: 20px; font-family: 'SF Mono', monospace; font-size: 12px; line-height: 1.8; color: #D4D4D8; overflow-x: auto; }
+  .css-var .comment { color: #71717A; }
+  .css-var .var-name { color: #3B82F6; }
+  .css-var .var-value { color: #10B981; }
+  @media (max-width: 700px) { .header { padding: 32px 24px; } .content { padding: 24px 16px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Dark Theme — Mapeamento de Cores</h1>
+  <p>Guia completo de substituição de cores para dark mode • Cor primária: <strong style="color:#3B82F6;">#3B82F6</strong></p>
+</div>
+
+<div class="content">
+
+  <!-- AVISO IMPORTANTE -->
+  <div class="warning-box">
+    <div class="warning-box-title">⚠️ Importante</div>
+    <div class="warning-box-text">
+      Este guia contém <strong>apenas mapeamento de cores</strong>. Não altere estrutura HTML, componentes, espaçamentos, border-radius, sombras ou qualquer outro elemento visual além das cores listadas aqui.
+    </div>
+  </div>
+
+  <!-- BACKGROUNDS -->
+  <div class="section">
+    <div class="section-title"><span>🎨</span> Backgrounds</div>
+    
+    <div class="section-sub">Backgrounds Principais</div>
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#0A0A0A;"></div>
+        <div class="color-info">
+          <div class="color-name">Background Principal</div>
+          <div class="color-hex">#0A0A0A</div>
+          <div class="color-use">Use para: body background, página principal</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#18181B;"></div>
+        <div class="color-info">
+          <div class="color-name">Background Elevado</div>
+          <div class="color-hex">#18181B</div>
+          <div class="color-use">Use para: cards, sidebars, painéis, seções</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#1C1C1E;"></div>
+        <div class="color-info">
+          <div class="color-name">Background Elevado 2</div>
+          <div class="color-hex">#1C1C1E</div>
+          <div class="color-use">Use para: modais, dropdowns, tooltips</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Background Hover</div>
+          <div class="color-hex">#27272A</div>
+          <div class="color-use">Use para: hover em itens de lista, sidebar</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3F3F46;"></div>
+        <div class="color-info">
+          <div class="color-name">Background Ativo</div>
+          <div class="color-hex">#3F3F46</div>
+          <div class="color-use">Use para: item selecionado, active state</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BORDAS -->
+  <div class="section">
+    <div class="section-title"><span>📏</span> Bordas</div>
+    
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#1F1F23; border-bottom: 2px solid #1F1F23;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Muito Sutil</div>
+          <div class="color-hex">#1F1F23</div>
+          <div class="color-use">Use para: divisores sutis, separadores leves</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#27272A; border-bottom: 3px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Padrão</div>
+          <div class="color-hex">#27272A</div>
+          <div class="color-use">Use para: borders de cards, inputs, containers</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3F3F46; border-bottom: 3px solid #3F3F46;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Hover</div>
+          <div class="color-hex">#3F3F46</div>
+          <div class="color-use">Use para: hover em cards, inputs com focus</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#52525B; border-bottom: 3px solid #52525B;"></div>
+        <div class="color-info">
+          <div class="color-name">Borda Ativa</div>
+          <div class="color-hex">#52525B</div>
+          <div class="color-use">Use para: elementos selecionados, em foco</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEXTO -->
+  <div class="section">
+    <div class="section-title"><span>📝</span> Texto</div>
+    
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#FAFAFA; border: 1px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Primário</div>
+          <div class="color-hex">#FAFAFA</div>
+          <div class="color-use">Use para: títulos principais, headings importantes</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#E5E7EB; border: 1px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Secundário</div>
+          <div class="color-hex">#E5E7EB</div>
+          <div class="color-use">Use para: corpo de texto, parágrafos, descrições</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#D4D4D8; border: 1px solid #27272A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Terciário</div>
+          <div class="color-hex">#D4D4D8</div>
+          <div class="color-use">Use para: texto de menor hierarquia</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#A1A1AA;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Muted</div>
+          <div class="color-hex">#A1A1AA</div>
+          <div class="color-use">Use para: metadados, labels, hints</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#71717A;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Suave</div>
+          <div class="color-hex">#71717A</div>
+          <div class="color-use">Use para: texto desabilitado, muito sutil</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#52525B;"></div>
+        <div class="color-info">
+          <div class="color-name">Texto Placeholder</div>
+          <div class="color-hex">#52525B</div>
+          <div class="color-use">Use para: placeholders de inputs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COR PRIMÁRIA -->
+  <div class="section">
+    <div class="section-title"><span>⭐</span> Cor Primária (Brand)</div>
+    
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3B82F6;"></div>
+        <div class="color-info">
+          <div class="color-name">Primária</div>
+          <div class="color-hex">#3B82F6</div>
+          <div class="color-use">Use para: botões primários, links, elementos interativos principais, badges de status ativo</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#2563EB;"></div>
+        <div class="color-info">
+          <div class="color-name">Primária Hover</div>
+          <div class="color-hex">#2563EB</div>
+          <div class="color-use">Use para: hover em botões primários</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:#1D4ED8;"></div>
+        <div class="color-info">
+          <div class="color-name">Primária Pressionada</div>
+          <div class="color-hex">#1D4ED8</div>
+          <div class="color-use">Use para: active/pressed state dos botões</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);"></div>
+        <div class="color-info">
+          <div class="color-name">Primária Suave BG</div>
+          <div class="color-hex">rgba(59,130,246,0.1)</div>
+          <div class="color-use">Use para: backgrounds suaves, badges, highlights</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORES SEMÂNTICAS -->
+  <div class="section">
+    <div class="section-title"><span>🎯</span> Cores Semânticas (Status)</div>
+    
+    <div class="section-sub">Sucesso / Positivo</div>
+    <div class="color-grid" style="margin-bottom: 24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#10B981;"></div>
+        <div class="color-info">
+          <div class="color-name">Sucesso</div>
+          <div class="color-hex">#10B981</div>
+          <div class="color-use">Texto de sucesso, ícones positivos</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);"></div>
+        <div class="color-info">
+          <div class="color-name">Sucesso BG Suave</div>
+          <div class="color-hex">rgba(16,185,129,0.1)</div>
+          <div class="color-use">Background de badges, alerts de sucesso</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Aviso / Atenção</div>
+    <div class="color-grid" style="margin-bottom: 24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#F59E0B;"></div>
+        <div class="color-info">
+          <div class="color-name">Warning</div>
+          <div class="color-hex">#F59E0B</div>
+          <div class="color-use">Texto de aviso, ícones de atenção</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3);"></div>
+        <div class="color-info">
+          <div class="color-name">Warning BG Suave</div>
+          <div class="color-hex">rgba(245,158,11,0.1)</div>
+          <div class="color-use">Background de badges, alerts de warning</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Erro / Perigo</div>
+    <div class="color-grid" style="margin-bottom: 24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#EF4444;"></div>
+        <div class="color-info">
+          <div class="color-name">Erro</div>
+          <div class="color-hex">#EF4444</div>
+          <div class="color-use">Texto de erro, ícones de perigo</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);"></div>
+        <div class="color-info">
+          <div class="color-name">Erro BG Suave</div>
+          <div class="color-hex">rgba(239,68,68,0.1)</div>
+          <div class="color-use">Background de badges, alerts de erro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Informação</div>
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:#3B82F6;"></div>
+        <div class="color-info">
+          <div class="color-name">Info</div>
+          <div class="color-hex">#3B82F6</div>
+          <div class="color-use">Texto informativo, ícones neutros</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);"></div>
+        <div class="color-info">
+          <div class="color-name">Info BG Suave</div>
+          <div class="color-hex">rgba(59,130,246,0.1)</div>
+          <div class="color-use">Background de badges, alerts informativos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPEAMENTO LIGHT → DARK -->
+  <div class="section">
+    <div class="section-title"><span>🔄</span> Mapeamento Light → Dark</div>
+    
+    <div class="success-box">
+      <div class="success-box-title">✅ Como Usar</div>
+      <div class="success-box-text">
+        Substitua as cores do seu tema light (coluna "De") pelas cores dark correspondentes (coluna "Para"). Mantenha toda a estrutura HTML/CSS existente.
+      </div>
+    </div>
+
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>Elemento</th>
+          <th>De (Light)</th>
+          <th></th>
+          <th>Para (Dark)</th>
+          <th>Uso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Body Background</strong></td>
+          <td><code>#FFFFFF</code> ou <code>#F4F5F7</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#0A0A0A</code></td>
+          <td>Fundo principal da página</td>
+        </tr>
+        <tr>
+          <td><strong>Card Background</strong></td>
+          <td><code>#FFFFFF</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#18181B</code></td>
+          <td>Backgrounds de cards, painéis</td>
+        </tr>
+        <tr>
+          <td><strong>Sidebar Background</strong></td>
+          <td><code>#FFFFFF</code> ou <code>#F9FAFB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#18181B</code></td>
+          <td>Background de sidebars</td>
+        </tr>
+        <tr>
+          <td><strong>Modal/Dialog BG</strong></td>
+          <td><code>#FFFFFF</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#1C1C1E</code></td>
+          <td>Modais, dropdowns, tooltips</td>
+        </tr>
+        <tr>
+          <td><strong>Hover Background</strong></td>
+          <td><code>#F3F4F6</code> ou <code>#F9FAFB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#27272A</code></td>
+          <td>Hover em listas, menu items</td>
+        </tr>
+        <tr>
+          <td><strong>Active Background</strong></td>
+          <td><code>#E5E7EB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#3F3F46</code></td>
+          <td>Item selecionado, active state</td>
+        </tr>
+        <tr>
+          <td><strong>Border Padrão</strong></td>
+          <td><code>#E5E7EB</code> ou <code>#D1D5DB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#27272A</code></td>
+          <td>Bordas de elementos</td>
+        </tr>
+        <tr>
+          <td><strong>Border Hover</strong></td>
+          <td><code>#D1D5DB</code> ou <code>#9CA3AF</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#3F3F46</code></td>
+          <td>Bordas em hover/focus</td>
+        </tr>
+        <tr>
+          <td><strong>Divisor/Separator</strong></td>
+          <td><code>#F3F4F6</code> ou <code>#E5E7EB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#1F1F23</code> ou <code>#27272A</code></td>
+          <td>Linhas divisórias</td>
+        </tr>
+        <tr>
+          <td><strong>Texto Primário</strong></td>
+          <td><code>#111827</code> ou <code>#000000</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#FAFAFA</code></td>
+          <td>Títulos, headings</td>
+        </tr>
+        <tr>
+          <td><strong>Texto Secundário</strong></td>
+          <td><code>#374151</code> ou <code>#1F2937</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#E5E7EB</code></td>
+          <td>Corpo de texto</td>
+        </tr>
+        <tr>
+          <td><strong>Texto Terciário</strong></td>
+          <td><code>#6B7280</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#A1A1AA</code></td>
+          <td>Metadados, labels</td>
+        </tr>
+        <tr>
+          <td><strong>Texto Muted</strong></td>
+          <td><code>#9CA3AF</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#71717A</code></td>
+          <td>Texto desabilitado</td>
+        </tr>
+        <tr>
+          <td><strong>Placeholder</strong></td>
+          <td><code>#9CA3AF</code> ou <code>#D1D5DB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#52525B</code></td>
+          <td>Placeholders de input</td>
+        </tr>
+        <tr>
+          <td><strong>Primária (Brand)</strong></td>
+          <td><code>#3B82F6</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#3B82F6</code></td>
+          <td>Mantém a mesma (já funciona)</td>
+        </tr>
+        <tr>
+          <td><strong>Primária Hover</strong></td>
+          <td><code>#2563EB</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#2563EB</code></td>
+          <td>Mantém a mesma</td>
+        </tr>
+        <tr>
+          <td><strong>Verde Sucesso</strong></td>
+          <td><code>#22C55E</code> ou <code>#10B981</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#10B981</code></td>
+          <td>Mensagens de sucesso</td>
+        </tr>
+        <tr>
+          <td><strong>Amarelo Warning</strong></td>
+          <td><code>#F59E0B</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#F59E0B</code></td>
+          <td>Mantém a mesma</td>
+        </tr>
+        <tr>
+          <td><strong>Vermelho Erro</strong></td>
+          <td><code>#EF4444</code></td>
+          <td><span class="arrow">→</span></td>
+          <td><code>#EF4444</code></td>
+          <td>Mantém a mesma</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CSS VARIABLES -->
+  <div class="section">
+    <div class="section-title"><span>💻</span> CSS Variables (Recomendado)</div>
+    
+    <div class="success-box">
+      <div class="success-box-title">✅ Melhor Prática</div>
+      <div class="success-box-text">
+        Use CSS variables para facilitar a manutenção. Crie estas variáveis no <code>:root</code> e substitua todas as cores hard-coded por variáveis.
+      </div>
+    </div>
+
+    <div class="css-var">
+<span class="comment">/* ===== DARK THEME - CSS VARIABLES ===== */</span>
+
+:root {
+  <span class="comment">/* Backgrounds */</span>
+  <span class="var-name">--bg-primary:</span> <span class="var-value">#0A0A0A</span>;
+  <span class="var-name">--bg-elevated:</span> <span class="var-value">#18181B</span>;
+  <span class="var-name">--bg-elevated-2:</span> <span class="var-value">#1C1C1E</span>;
+  <span class="var-name">--bg-hover:</span> <span class="var-value">#27272A</span>;
+  <span class="var-name">--bg-active:</span> <span class="var-value">#3F3F46</span>;
+
+  <span class="comment">/* Borders */</span>
+  <span class="var-name">--border-subtle:</span> <span class="var-value">#1F1F23</span>;
+  <span class="var-name">--border-default:</span> <span class="var-value">#27272A</span>;
+  <span class="var-name">--border-hover:</span> <span class="var-value">#3F3F46</span>;
+  <span class="var-name">--border-active:</span> <span class="var-value">#52525B</span>;
+
+  <span class="comment">/* Text */</span>
+  <span class="var-name">--text-primary:</span> <span class="var-value">#FAFAFA</span>;
+  <span class="var-name">--text-secondary:</span> <span class="var-value">#E5E7EB</span>;
+  <span class="var-name">--text-tertiary:</span> <span class="var-value">#D4D4D8</span>;
+  <span class="var-name">--text-muted:</span> <span class="var-value">#A1A1AA</span>;
+  <span class="var-name">--text-subtle:</span> <span class="var-value">#71717A</span>;
+  <span class="var-name">--text-placeholder:</span> <span class="var-value">#52525B</span>;
+
+  <span class="comment">/* Brand Primary (Azul) */</span>
+  <span class="var-name">--primary:</span> <span class="var-value">#3B82F6</span>;
+  <span class="var-name">--primary-hover:</span> <span class="var-value">#2563EB</span>;
+  <span class="var-name">--primary-pressed:</span> <span class="var-value">#1D4ED8</span>;
+  <span class="var-name">--primary-bg-subtle:</span> <span class="var-value">rgba(59, 130, 246, 0.1)</span>;
+
+  <span class="comment">/* Semantic Colors */</span>
+  <span class="var-name">--success:</span> <span class="var-value">#10B981</span>;
+  <span class="var-name">--success-bg:</span> <span class="var-value">rgba(16, 185, 129, 0.1)</span>;
+  <span class="var-name">--warning:</span> <span class="var-value">#F59E0B</span>;
+  <span class="var-name">--warning-bg:</span> <span class="var-value">rgba(245, 158, 11, 0.1)</span>;
+  <span class="var-name">--error:</span> <span class="var-value">#EF4444</span>;
+  <span class="var-name">--error-bg:</span> <span class="var-value">rgba(239, 68, 68, 0.1)</span>;
+}
+
+<span class="comment">/* Exemplo de uso */</span>
+body {
+  background: <span class="var-name">var(--bg-primary)</span>;
+  color: <span class="var-name">var(--text-secondary)</span>;
+}
+
+.card {
+  background: <span class="var-name">var(--bg-elevated)</span>;
+  border: 1px solid <span class="var-name">var(--border-default)</span>;
+}
+
+.button-primary {
+  background: <span class="var-name">var(--primary)</span>;
+  color: <span class="var-name">var(--text-primary)</span>;
+}
+
+.button-primary:hover {
+  background: <span class="var-name">var(--primary-hover)</span>;
+}</div>
+  </div>
+
+  <!-- REFERÊNCIA RÁPIDA -->
+  <div class="section">
+    <div class="section-title"><span>⚡</span> Referência Rápida — Copie e Cole</div>
+    
+    <div class="qr">
+<div class="qr-section">BACKGROUNDS</div>
+<div class="qr-item"><span class="qr-label">Page background</span><span class="qr-value">#0A0A0A</span></div>
+<div class="qr-item"><span class="qr-label">Cards, sidebar, painéis</span><span class="qr-value">#18181B</span></div>
+<div class="qr-item"><span class="qr-label">Modal, dropdown, tooltip</span><span class="qr-value">#1C1C1E</span></div>
+<div class="qr-item"><span class="qr-label">Hover background</span><span class="qr-value">#27272A</span></div>
+<div class="qr-item"><span class="qr-label">Active/selected background</span><span class="qr-value">#3F3F46</span></div>
+
+<div class="qr-section">BORDAS</div>
+<div class="qr-item"><span class="qr-label">Divisor sutil</span><span class="qr-value">#1F1F23</span></div>
+<div class="qr-item"><span class="qr-label">Border padrão</span><span class="qr-value">#27272A</span></div>
+<div class="qr-item"><span class="qr-label">Border hover/focus</span><span class="qr-value">#3F3F46</span></div>
+<div class="qr-item"><span class="qr-label">Border ativo</span><span class="qr-value">#52525B</span></div>
+
+<div class="qr-section">TEXTO</div>
+<div class="qr-item"><span class="qr-label">Títulos principais</span><span class="qr-value">#FAFAFA</span></div>
+<div class="qr-item"><span class="qr-label">Corpo de texto</span><span class="qr-value">#E5E7EB</span></div>
+<div class="qr-item"><span class="qr-label">Texto terciário</span><span class="qr-value">#D4D4D8</span></div>
+<div class="qr-item"><span class="qr-label">Metadados, labels</span><span class="qr-value">#A1A1AA</span></div>
+<div class="qr-item"><span class="qr-label">Texto suave</span><span class="qr-value">#71717A</span></div>
+<div class="qr-item"><span class="qr-label">Placeholder</span><span class="qr-value">#52525B</span></div>
+
+<div class="qr-section">COR PRIMÁRIA (BRAND)</div>
+<div class="qr-item"><span class="qr-label">Primária</span><span class="qr-value">#3B82F6</span></div>
+<div class="qr-item"><span class="qr-label">Primária hover</span><span class="qr-value">#2563EB</span></div>
+<div class="qr-item"><span class="qr-label">Primária pressed</span><span class="qr-value">#1D4ED8</span></div>
+<div class="qr-item"><span class="qr-label">Primária background suave</span><span class="qr-value">rgba(59,130,246,0.1)</span></div>
+
+<div class="qr-section">SEMÂNTICAS</div>
+<div class="qr-item"><span class="qr-label">Sucesso</span><span class="qr-value">#10B981</span></div>
+<div class="qr-item"><span class="qr-label">Sucesso BG</span><span class="qr-value">rgba(16,185,129,0.1)</span></div>
+<div class="qr-item"><span class="qr-label">Warning</span><span class="qr-value">#F59E0B</span></div>
+<div class="qr-item"><span class="qr-label">Warning BG</span><span class="qr-value">rgba(245,158,11,0.1)</span></div>
+<div class="qr-item"><span class="qr-label">Erro</span><span class="qr-value">#EF4444</span></div>
+<div class="qr-item"><span class="qr-label">Erro BG</span><span class="qr-value">rgba(239,68,68,0.1)</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:#52525B;text-align:center;padding:24px 0;">
+    Mapeamento Dark Theme • Apenas cores, sem alterar estrutura • Fevereiro 2026
+  </p>
+</div>
+
+</body>
+</html>
